@@ -77,6 +77,8 @@ using TPI_ProgramacionIII.Services.Interfaces;
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();           
+
             app.UseAuthorization();
 
 

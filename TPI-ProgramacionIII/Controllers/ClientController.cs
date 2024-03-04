@@ -10,7 +10,6 @@ namespace TPI_ProgramacionIII.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
@@ -64,9 +63,7 @@ namespace TPI_ProgramacionIII.Controllers
         [HttpPost("CreateNewClient")]
         public IActionResult CreateClient([FromBody] ClientPostDto dto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin" || role == "Client")
-            {
+           
                 if (dto.Name == "string" || dto.LastName == "string" || dto.Email == "string" || dto.UserName == "string" || dto.Password == "string" || dto.Adress == "string")
                 {
                     return BadRequest("Cliente no creado, por favor completar los campos");
@@ -90,8 +87,7 @@ namespace TPI_ProgramacionIII.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
-            }
-            return Forbid();
+                
         }
 
 

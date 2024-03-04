@@ -29,6 +29,17 @@ namespace TPI_ProgramacionIII.Controllers
                 var products = _productService.GetProducts();
                 try
                 {
+                    if (role != "Admin")
+                    {
+                        var productDto = products
+                            .Select(product => new ProductsDto
+                            {
+                                Name = product.Name,
+                                Price = product.Price,
+                                Stock = product.Stock,
+                            });
+                        return Ok(productDto);
+                    }
                     return Ok(products);
                 }
                 catch (Exception ex)

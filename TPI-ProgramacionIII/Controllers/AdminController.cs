@@ -32,7 +32,19 @@ namespace TPI_ProgramacionIII.Controllers
 
                 try
                 {
-                    return Ok(admins.Where(x => x.State == true)); //solo los activos
+                    /* return Ok(admins.Where(x => x.State == true));*/ 
+                    var adminDtos = admins
+                      .Where(x => x.State == true) //solo los activos
+                      .Select(admin => new AdminsDto
+                      {
+                          Id = admin.Id,                          
+                          Name = admin.Name,
+                          UserName = admin.UserName,
+                          Email = admin.Email,
+                          UserType = admin.UserType,
+                          State = admin.State,
+                      });
+                    return Ok(adminDtos);
                 }
                 catch (Exception ex)
                 {

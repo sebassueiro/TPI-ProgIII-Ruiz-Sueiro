@@ -22,6 +22,7 @@ namespace TPI_ProgramacionIII.Controllers
         }
 
         [HttpGet("GetAllClients")]
+        [Authorize]
         public IActionResult GetClients()
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -43,6 +44,7 @@ namespace TPI_ProgramacionIII.Controllers
 
 
         [HttpGet("GetClientById{id}")]
+        [Authorize]
         public IActionResult GetClientById(int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -92,6 +94,7 @@ namespace TPI_ProgramacionIII.Controllers
 
 
         [HttpDelete("DeleteClient/{id}")]
+        [Authorize]
         public IActionResult DeleteClient(int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -116,6 +119,7 @@ namespace TPI_ProgramacionIII.Controllers
         }
 
         [HttpPut("UpdateClient{id}")]
+        [Authorize]
         public IActionResult UpdateClient([FromRoute] int id, [FromBody] ClientPutDto client)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();

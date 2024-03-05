@@ -95,12 +95,12 @@ namespace TPI_ProgramacionIII.Controllers
         }
 
         [HttpPost("CreateSaleOrderLine")]
-        public IActionResult CreateSaleOrderLine([FromBody] LineOfOrderDto dto)
+        public IActionResult CreateSaleOrderLine([FromBody] LineOfOrderPostDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
             if (role == "Admin" || role == "Client")
             {
-                if (dto.ProductId == 0 || dto.SaleOrderId == 0 || dto.Amount == 0 || dto.UnitPrice == 0)
+                if (dto.ProductId == 0 || dto.SaleOrderId == 0 || dto.Amount == 0)
                 {
                     return BadRequest("Por favor complete los campos");
                 }
@@ -112,7 +112,7 @@ namespace TPI_ProgramacionIII.Controllers
                         ProductId = dto.ProductId,
                         SaleOrderId = dto.SaleOrderId,
                         Amount = dto.Amount,
-                        UnitPrice = dto.UnitPrice
+                        
                     };
 
                     newSaleOrderLine = _lineOfOrderService.CreateSaleOrderLine(newSaleOrderLine);
@@ -154,7 +154,7 @@ namespace TPI_ProgramacionIII.Controllers
 
 
         [HttpPut("UpdateSaleOrderLine{id}")]
-        public IActionResult UpdateSaleOrderLine([FromRoute] int id, [FromBody] LineOfOrderDto dto)
+        public IActionResult UpdateSaleOrderLine([FromRoute] int id, [FromBody] LineOfOrderPutDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
             if (role == "Admin" || role == "Client")
@@ -164,17 +164,16 @@ namespace TPI_ProgramacionIII.Controllers
                 {
                     return NotFound($"Líne de venta con ID {id} no encontrada");
                 }
-                if (dto.ProductId == 0 || dto.SaleOrderId == 0 || dto.Amount == 0 || dto.UnitPrice == 0)
+                if (dto.ProductId == 0 || dto.Amount == 0)
                 {
                     return BadRequest("Línea de venta no actualizado, por favor completar los campos");
                 }
 
                 try
-                {
+                { 
                     lineOfOrderToUpdate.ProductId = dto.ProductId;
-                    lineOfOrderToUpdate.SaleOrderId = dto.SaleOrderId;
                     lineOfOrderToUpdate.Amount = dto.Amount;
-                    lineOfOrderToUpdate.UnitPrice = dto.UnitPrice;
+                    
 
                     lineOfOrderToUpdate = _lineOfOrderService.UpdateSaleOrderLine(lineOfOrderToUpdate);
                     return Ok($"Línea de venta actualizada exitosamente");

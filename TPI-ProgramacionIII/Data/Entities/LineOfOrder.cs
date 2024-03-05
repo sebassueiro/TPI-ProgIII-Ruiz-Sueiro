@@ -9,7 +9,19 @@ namespace TPI_ProgramacionIII.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Amount { get; set; }
-        public decimal UnitPrice { get; set; }
+        public decimal UnitPrice
+        {
+            get
+            {
+                if (Product != null)
+                {
+                    return Product.Price; 
+                }
+                return 0; 
+            }
+            set { }
+        }
+
         [ForeignKey("ProductId")]
         public int ProductId { get; set; } // Clave foránea para la relación con Producto
         public Product Product { get; set; }

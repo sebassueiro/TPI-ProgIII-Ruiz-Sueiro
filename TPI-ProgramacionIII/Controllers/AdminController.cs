@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Xml.Linq;
 using TPI_ProgramacionIII.Data.Entities;
 using TPI_ProgramacionIII.Models;
 using TPI_ProgramacionIII.Services.Interfaces;
@@ -69,7 +70,16 @@ namespace TPI_ProgramacionIII.Controllers
                     return NotFound($"El admmin de ID: {id} no fue encontrado");
                 }
 
-                return Ok(admin);
+                var adminDto = new AdminsDto
+                {
+                  Id = admin.Id,                          
+                  Name = admin.Name,
+                  UserName = admin.UserName,
+                  Email = admin.Email,
+                  UserType = admin.UserType,
+                  State = admin.State,
+                };
+                return Ok(adminDto);
             }
             return Forbid();
         }
